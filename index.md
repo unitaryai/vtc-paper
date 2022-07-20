@@ -1,37 +1,33 @@
-## Welcome to GitHub Pages
+## VTC: a Curated Reddit Dataset of Videos, Titles, and Comments
 
-You can use the [editor on GitHub](https://github.com/unitaryai/vtc.github.io/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+VTC is a large-scale multimodal dataset containing video-caption pairs alongside comments that can be used for multimodal representation learning.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+![example]([src](https://github.com/unitaryai/VTC/blob/main/vtc_fig.png))
 
-### Markdown
+### Dataset Curation
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+This dataset is a sample of a larger, unfiltered version of the original dataset that we have collected. From the initial version, we handpicked a list of ”safe” subreddits and removed posts if: 1) they had the ”NSFW” or ”over 18” tags; 2) the videos contained faces or the captions contained toxic or offensive text.
 
-```markdown
-Syntax highlighted code block
+We are only publicly releasing urls such that if a user decides to remove a post, the link to the post will become invalid. This dataset should not be used for tasks that might disclose the identity of the users or directly or indirectly harm them.
 
-# Header 1
-## Header 2
-### Header 3
+### Download
 
-- Bulleted
-- List
+The public csv containing post urls and comment ids can be downloaded from [here](https://github.com/unitaryai/VTC/releases/download/v0.1.0-alpha/VTC_v1.0_public.csv.tar.gz). To download the media please see our code [here](https://github.com/unitaryai/VTC-dataset).
 
-1. Numbered
-2. List
+### Code & Checkpoints
 
-**Bold** and _Italic_ and `Code` text
+Code to reproduce our experiments and saved model checkpoints can be found [here](https://github.com/unitaryai/VTC).
 
-[Link](url) and ![Image](src)
-```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+### Citation
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/unitaryai/vtc.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+@inproceedings{hanu2022vtc,
+    title={{VTC: Improving Video-Text Retrieval with User Comments}},
+    author={Laura Hanu and James Thewlis and Yuki M. Asano and Christian Rupprecht},
+    booktitle={ECCV},
+    year={2022}
+}
 
 ### Support or Contact
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+For questions regarding the dataset or the paper please email laura@unitary.ai.
