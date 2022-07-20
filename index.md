@@ -1,9 +1,7 @@
-## VTC: a Curated Reddit Dataset of Videos, Titles, and Comments
-
 VTC is a large-scale multimodal dataset containing video-caption pairs alongside comments that can be used for multimodal representation learning.
 
 <p align="center">
-<img  src="https://github.com/unitaryai/VTC/blob/main/vtc_fig.png" height="350">
+<img src="https://github.com/unitaryai/VTC/blob/main/vtc_fig.png" height="350">
 </p>
 
 ### Dataset Curation
