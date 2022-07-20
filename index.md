@@ -2,7 +2,7 @@
 
 VTC is a large-scale multimodal dataset containing video-caption pairs alongside comments that can be used for multimodal representation learning.
 
-![example]([src](https://github.com/unitaryai/VTC/blob/main/vtc_fig.png))
+![example](https://github.com/unitaryai/VTC/blob/main/vtc_fig.png)
 
 ### Dataset Curation
 
