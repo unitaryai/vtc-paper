@@ -23,13 +23,15 @@ Code to reproduce our experiments and saved model checkpoints can be found [here
 
 ### Citation
 
+```text
 @inproceedings{hanu2022vtc,
     title={{VTC: Improving Video-Text Retrieval with User Comments}},
     author={Laura Hanu and James Thewlis and Yuki M. Asano and Christian Rupprecht},
     booktitle={ECCV},
     year={2022}
 }
+```
 
-### Support or Contact
+### Contact
 
 For questions regarding the dataset or the paper please email laura@unitary.ai.
