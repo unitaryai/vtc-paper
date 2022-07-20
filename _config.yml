@@ -1,5 +1,4 @@
 theme: jekyll-theme-cayman
 
-title: "VTC"
-subtitle: "a Curated Reddit Dataset of Videos, Titles, and Comments"
+title: "VTC: Improving Video-Text Retrieval with User Comments"
 url: "https://vtc-dataset.com"
