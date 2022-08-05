@@ -7,6 +7,29 @@
     <style>
         body {
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            margin: 0;
+        }
+
+        header {
+            background-color: #159957;
+            background-image: linear-gradient(120deg, #155799, #159957);
+            font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            padding: 1em;
+        }
+
+        main {
+            padding: 1em;
+        }
+
+        header h1 {
+            margin: 0;
+            color: white;
+        }
+
+        header h1 a,
+        header h1 a:visited {
+            color: white;
+            text-decoration: none;
         }
 
         .subredditListing {
@@ -35,18 +58,37 @@
         .commentFrame {
             margin-top: -50px;
         }
+
+        .postContainer {
+            border: solid 1px black;
+            width: 640px;
+            margin: 1em;
+        }
+
+        .postContainer p {
+            margin: 1em;
+        }
     </style>
 </head>
 
 <body>
 
-    <div id="subreddits">
+    <header>
+        <h1><a href="?">VTC: Videos, Titles, Comments</a></h1>
+    </header>
+    <main>
+        <div id="loading">
+            Loading...
+        </div>
 
-    </div>
+        <div id="subreddits">
 
-    <div id="subredditSelection">
+        </div>
 
-    </div>
+        <div id="subredditSelection">
+
+        </div>
+    </main>
 
 </body>
 
@@ -68,7 +110,7 @@
         return result;
     }
 
-    function load_data(data) {
+    function loadData(data) {
         let letters = {};
 
         for (let c of "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
@@ -108,11 +150,19 @@
                 let sub = letters[letter][i];
 
                 let li = document.createElement('li');
+
                 li.innerText = sub + " (" + data[sub].length + ")";
                 subredditListing.appendChild(li);
 
+                // Ensure the li elements act like links for accessibility
+                // and keyboard navigation purposes
+                li.setAttribute("role", "link");
+                li.setAttribute("tabindex", "0");
                 li.addEventListener("click", e => loadSubredditSelectionView(sub));
+                li.addEventListener("keydown", e => e.keyCode === 13 && loadSubredditSelectionView(sub));
             }
+
+            document.getElementById("loading").style = "display:none";
 
         });
 
@@ -148,38 +198,56 @@
         const subSelection = document.getElementById("subredditSelection");
         subSelection.style = "display: unset";
         const backUrl = window.location.href.split('?')[0];
-        let heading =
-            `<a href="${backUrl}" onclick='event.preventDefault(); loadSubredditListingView();')>Back to listing</a>`;
-        heading += "<h1>" + escapeHtml(subreddit) + "</h1>";
-        subSelection.innerHTML = heading;
 
 
         const examples = window.subData[subreddit];
         const examplesSubset = getRandomSample(examples, Math.min(10, examples.length));
 
+        let heading =
+            `<a href="${backUrl}" onclick='event.preventDefault(); loadSubredditListingView();')>Back to listing</a>`;
+        heading += "<h1>" + escapeHtml(subreddit) + "</h1>";
+        heading +=
+            `<p>Showing ${examplesSubset.length} random posts out of ${examples.length} (<a href="">refresh</a> to see a different set)</p>`
+        subSelection.innerHTML = heading;
+
         for (var i = 0; i < examplesSubset.length; ++i) {
+            let postContainer = document.createElement("div");
+            postContainer.className = "postContainer";
+
+            // For each post we have an array of
+            // [postId, [commentId,...], totalCommentCount]
+            // the list of comment ids is truncated to some
+            // maxium in the json, but totalCommentCount gives
+            // the total number of comments for the post in the
+            // dataset
             let postId = examplesSubset[i][0];
             let commentIds = examplesSubset[i][1];
-            commentIds = getRandomSample(commentIds, Math.min(5, commentIds.length));
+            let commentTotalCount = examplesSubset[i][2];
+            commentIdsSample = getRandomSample(commentIds, Math.min(5, commentIds.length));
 
             let videoEmbedStr =
                 `<iframe loading="lazy" id="reddit-embed" src="https://www.redditmedia.com/r/${subreddit}/comments/${postId}/_/?ref_source=embed&amp;ref=share&amp;embed=true" sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;" height="621" width="640" scrolling="no"></iframe>`
 
             let videoDiv = document.createElement("div");
             videoDiv.innerHTML = videoEmbedStr;
-            subSelection.appendChild(videoDiv);
+            postContainer.appendChild(videoDiv);
 
-            for (var c = 0; c < commentIds.length; ++c) {
-                let commentId = commentIds[c];
+            let commentInfo = document.createElement("p");
+            commentInfo.innerText =
+                `Showing ${commentIdsSample.length} random comment${commentIdsSample.length === 1 ? "" : "s"} out of ${commentTotalCount}:`;
+            postContainer.appendChild(commentInfo);
+
+            for (var c = 0; c < commentIdsSample.length; ++c) {
+                let commentId = commentIdsSample[c];
                 let commentEmbedStr =
                     `<iframe class="commentFrame" loading="lazy" id="reddit-embed" src="https://www.redditmedia.com/r/${subreddit}/comments/${postId}/_/${commentId}/?depth=1&amp;showmore=false&amp;embed=true&amp;showmedia=false" sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;" height="139" width="640" scrolling="no"></iframe>`
                 let commentDiv = document.createElement("div");
                 commentDiv.className = "commentContainer";
                 commentDiv.innerHTML = commentEmbedStr;
-                subSelection.appendChild(commentDiv);
+                postContainer.appendChild(commentDiv);
             }
 
-            subSelection.appendChild(document.createElement("hr"));
+            subSelection.appendChild(postContainer);
         }
 
     }
@@ -194,10 +262,9 @@
         document.getElementById("subredditSelection").innerHTML = "";
     }
 
-    fetch("dataset_ids.json")
+    fetch("dataset_ids.json?cachenum=1")
         .then(response => response.json())
-        .then(json => load_data(json));
-
+        .then(json => loadData(json));
 </script>
 
 </html>
