@@ -14,13 +14,29 @@
             background-color: #159957;
             background-image: linear-gradient(120deg, #155799, #159957);
             font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            padding: 1em;
+            padding-left: 6em;
+            padding-top: 2em;
+            padding-bottom: 2em;
+            position: sticky;
+            top: 0;
         }
 
         main {
             padding: 1em;
         }
 
+        #subredditSelection {
+            text-align: center;
+            color:rgb(71, 71, 71);
+        }
+
+        #subreddits {
+            padding: 5em;
+            color:rgb(71, 71, 71);
+        }
+        p {
+            font-weight: 300;
+        }
         header h1 {
             margin: 0;
             color: white;
@@ -39,16 +55,17 @@
 
         .subredditListing li {
             border: solid 1px black;
-            border-radius: 1em;
+            border: solid 1.3px rgba(0, 0, 0, 0.2);
+            border-radius: 0.6em;
             display: inline-block;
             list-style: none;
             padding: 0.4em;
-            margin: 0.1em;
+            margin: 0.15em;
             cursor: pointer;
         }
 
         .subredditListing li:hover {
-            background-color: #aaa;
+            background-color: rgba(0, 0, 0, 0.1);
         }
 
         .commentContainer {
@@ -60,15 +77,27 @@
         }
 
         .postContainer {
-            border: solid 1px black;
+            display: flex;
+            box-shadow: 0px -2px 20px 2px rgba(0, 0, 0, 0.1);
             width: 640px;
-            margin: 1em;
+            height: 900px;
+            overflow: scroll;
+            margin: 2em;
             vertical-align: top;
             display: inline-block;
+            color:rgb(62, 62, 62);
+        }
+
+        .postGrid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 2em;
         }
 
         .postContainer p {
-            margin: 1em;
+            display: left;
+            margin: 2em;
         }
     </style>
 </head>
@@ -76,7 +105,7 @@
 <body>
 
     <header>
-        <h1><a href="?">VTC: Videos, Titles, Comments</a></h1>
+        <h1 onclick="event.preventDefault(); loadSubredditListingView();" ><a href="?">VTC: Videos, Titles, Comments</a></h1>
     </header>
     <main>
         <div id="loading">
@@ -198,19 +227,19 @@
         document.getElementById("subreddits").style = "display: none";
 
         const subSelection = document.getElementById("subredditSelection");
-        subSelection.style = "display: unset";
+        subSelection.style = "display: revert";
         const backUrl = window.location.href.split('?')[0];
 
 
         const examples = window.subData[subreddit];
         const examplesSubset = getRandomSample(examples, Math.min(10, examples.length));
 
-        let heading =
-            `<a href="${backUrl}" onclick='event.preventDefault(); loadSubredditListingView();')>Back to listing</a>`;
-        heading += "<h1>" + escapeHtml(subreddit) + "</h1>";
+        let heading = "<h1>" + escapeHtml(subreddit) + "</h1>";
         heading +=
-            `<p>Showing ${examplesSubset.length} random posts out of ${examples.length} (<a href="">refresh</a> to see a different set)</p>`
+            `<p> Showing ${examplesSubset.length} random posts out of ${examples.length} (<a href="">refresh</a> to see a different set)</p>`
         subSelection.innerHTML = heading;
+        let postGrid = document.createElement("div");
+        postGrid.className = "postGrid";
 
         for (var i = 0; i < examplesSubset.length; ++i) {
             let postContainer = document.createElement("div");
@@ -228,7 +257,7 @@
             commentIdsSample = getRandomSample(commentIds, Math.min(5, commentIds.length));
 
             let videoEmbedStr =
-                `<iframe loading="lazy" id="reddit-embed" src="https://www.redditmedia.com/r/${subreddit}/comments/${postId}/_/?ref_source=embed&amp;ref=share&amp;embed=true" sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;" height="621" width="640" scrolling="no"></iframe>`
+                `<iframe loading="lazy" id="reddit-embed" src="https://www.redditmedia.com/r/${subreddit}/comments/${postId}/_/?ref_source=embed&amp;ref=share&amp;embed=true" sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;" height="621" width="640" scrolling="yes"></iframe>`
 
             let videoDiv = document.createElement("div");
             videoDiv.innerHTML = videoEmbedStr;
@@ -237,20 +266,20 @@
             let commentInfo = document.createElement("p");
             commentInfo.innerText =
                 `Showing ${commentIdsSample.length} random comment${commentIdsSample.length === 1 ? "" : "s"} out of ${commentTotalCount}:`;
-            postContainer.appendChild(commentInfo);
+                postContainer.appendChild(commentInfo);
 
             for (var c = 0; c < commentIdsSample.length; ++c) {
                 let commentId = commentIdsSample[c];
                 let commentEmbedStr =
-                    `<iframe class="commentFrame" loading="lazy" id="reddit-embed" src="https://www.redditmedia.com/r/${subreddit}/comments/${postId}/_/${commentId}/?depth=1&amp;showmore=false&amp;embed=true&amp;showmedia=false" sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;" height="139" width="640" scrolling="no"></iframe>`
+                    `<iframe class="commentFrame" loading="lazy" id="reddit-embed" src="https://www.redditmedia.com/r/${subreddit}/comments/${postId}/_/${commentId}/?depth=1&amp;showmore=false&amp;embed=true&amp;showmedia=false" sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;" height="147" width="640" scrolling="yes"></iframe>`
                 let commentDiv = document.createElement("div");
                 commentDiv.className = "commentContainer";
                 commentDiv.innerHTML = commentEmbedStr;
                 postContainer.appendChild(commentDiv);
             }
-
-            subSelection.appendChild(postContainer);
+            postGrid.appendChild(postContainer);
         }
+        subSelection.appendChild(postGrid);
 
     }
 
@@ -259,7 +288,7 @@
         if ((new URLSearchParams(window.location.search)).get("sub")) {
             window.history.pushState("", "", "?");
         }
-        document.getElementById("subreddits").style = "display: unset";
+        document.getElementById("subreddits").style = "display: revert";
         document.getElementById("subredditSelection").style = "display: none";
         document.getElementById("subredditSelection").innerHTML = "";
     }
