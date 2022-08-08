@@ -1,11 +1,10 @@
 theme: jekyll-theme-cayman
 
-title: "VTC ✌️🫖 🌊 : Improving Video-Text Retrieval with User Comments"
+title: "VTC ✌️🫖 🌊 : Video-Text Retrieval with User Comments"
 url: "https://vtc-dataset.com"
 show_downloads: true
 github:
-  code_url: "https://github.com/unitaryai/VTC"
   dataset_url: "https://github.com/unitaryai/VTC-dataset"
   explore_url: "https://unitaryai.github.io/vtc-paper/assets/dataset_explorer.html"
-
+  code_url: "https://github.com/unitaryai/VTC"
 

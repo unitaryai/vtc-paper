@@ -19,11 +19,11 @@
       <h1 class="project-name">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
       <h2 class="project-tagline">{{ page.description | default: site.description | default: site.github.project_tagline }}</h2>
       {% if site.github.is_project_page %}
-        <a href="{{ site.github.code_url }}" class="btn">see code</a>
+        <a href="{{ site.github.code_url }}" class="btn">Paper code</a>
       {% endif %}
       {% if site.show_downloads %}
-        <a href="{{ site.github.dataset_url }}" class="btn">download dataset</a>
-        <a href="{{ site.github.explore_url }}" class="btn">explore dataset</a>
+        <a href="{{ site.github.dataset_url }}" class="btn">Download dataset</a>
+        <a href="{{ site.github.explore_url }}" class="btn">Explore dataset</a>
       {% endif %}
     </header>
 
