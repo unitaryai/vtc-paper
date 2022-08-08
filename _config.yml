@@ -7,4 +7,5 @@ github:
   dataset_url: "https://github.com/unitaryai/VTC-dataset"
   explore_url: "https://unitaryai.github.io/vtc-paper/assets/dataset_explorer.html"
   code_url: "https://github.com/unitaryai/VTC"
+  demo_url: "https://huggingface.co/unitary"
 
