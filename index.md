@@ -23,7 +23,7 @@ Code to reproduce our experiments and saved model checkpoints can be found [here
 
 ```text
 @inproceedings{hanu2022vtc,
-    title={{VTC: Improving Video-Text Retrieval with User Comments}},
+    title={VTC: Improving Video-Text Retrieval with User Comments},
     author={Laura Hanu and James Thewlis and Yuki M. Asano and Christian Rupprecht},
     booktitle={ECCV},
     year={2022}
