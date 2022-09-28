@@ -4,6 +4,7 @@ title: "VTC ✌️🫖 🌊 : Video-Text Retrieval with User Comments"
 url: "https://vtc-dataset.com"
 show_downloads: true
 github:
+  paper_url: "https://unitaryai.github.io/vtc-paper/assets/VTC_paper.pdf"
   dataset_url: "https://github.com/unitaryai/VTC-dataset"
   explore_url: "https://unitaryai.github.io/vtc-paper/assets/dataset_explorer.html"
   code_url: "https://github.com/unitaryai/VTC"
